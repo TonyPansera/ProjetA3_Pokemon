@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Leader : protected Entraineur {
+class Leader : public Entraineur {
     private:
         string badge;
         string gymnase;

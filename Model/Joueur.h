@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Joueur : protected Entraineur {
+class Joueur : public Entraineur {
     private:
         int nbBadgesRemportes;
         int nbCombatsGagnes;
