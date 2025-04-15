@@ -11,6 +11,10 @@ class Pokemon {
         int pv;
         string attaque;
         int degatsAttaque;
+    
+    public: 
+        Pokemon(string pNom, int pPv, string pAttaque, int pDegats);
+        virtual ~Pokemon() {}
 };
 
 #endif
