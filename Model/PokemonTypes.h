@@ -9,21 +9,24 @@ using namespace std;
 
 struct Type {
     string type;
+    vector<Type*> faiblesses;
+    vector<Type*> resistances;
 
-    string getType() {
-        return type;
-    }
-};
+    string getType();
+
+    bool isFaiblesse(string nomType);
+    
+    bool isRes(string nomType);
+}; 
 
 class PokemonComplet : public Pokemon {
     private:
         vector<Type> types;
-        vector<Type> faiblesses;
-        vector<Type> resistances;
+        
         int pvActuels;
     
     public:
-        PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats);
+        PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type> pTypes);
 };
 
 #endif 
