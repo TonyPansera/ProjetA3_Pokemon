@@ -8,10 +8,11 @@
 using namespace std;
 
 struct Type {
-    string type;
+    const string type;
     vector<Type*> faiblesses;
     vector<Type*> resistances;
 
+    Type(string nom);
     string getType();
 
     bool isFaiblesse(string nomType);
