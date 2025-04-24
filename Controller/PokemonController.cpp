@@ -1,4 +1,24 @@
 #include "PokemonController.h"
+#include <fstream>
+#include <iostream>
+
+void PokemonController::addAllPokemons() {
+    ifstream fichier("mon_fichier.txt"); // nom du fichier à lire
+
+    if (!fichier) {
+        cerr << "Erreur lors de l'ouverture du fichier" << endl;
+
+    } else {
+        string ligne;
+        while (getline(fichier, ligne)) {
+            cout << ligne << endl;  // Affiche chaque ligne
+        }
+    
+        fichier.close();
+    }
+
+    
+}
 
 void PokemonController::typesInit() {
     alTypes[0] = new Type("Feu");
@@ -201,3 +221,4 @@ void PokemonController::typesInit() {
     
     
 }
+

@@ -16,7 +16,7 @@ class PokemonController {
         vector<Maitre> alMaitres;
         vector<Leader> alLeaders;
 
-        Type* alTypes[17];
+        Type* alTypes[18];
 
         void typesInit();
         void addAllPokemons();
