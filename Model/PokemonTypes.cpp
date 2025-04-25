@@ -31,12 +31,12 @@ PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegat
 }
 
 PokemonComplet::~PokemonComplet() {
-    if (types != nullptr) {
-        for (Type* type : *types) {
-            delete type; 
-            type = nullptr;
+    // Libération des objets Type* dans le vecteur
+    for (Type* type : *types) {
+        if (type != nullptr) {
+            delete type;  // Supprime chaque objet Type* dans le vecteur
         }
-        delete types; 
-        types = nullptr;
     }
+    // Pas besoin de supprimer 'types' lui-même, car il n'a pas été alloué dynamiquement
 }
+

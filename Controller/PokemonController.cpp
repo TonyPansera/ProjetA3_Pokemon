@@ -6,10 +6,11 @@
 
 PokemonController::PokemonController() {
     this->typesInit();
+    this->addAllPokemons();
 }
 
 void PokemonController::addAllPokemons() {
-    ifstream fichier("pokemon.csv"); 
+    ifstream fichier("../Controller/pokemon.csv"); 
 
     if (!fichier) {
         cerr << "Erreur lors de l'ouverture du fichier" << endl;
@@ -18,6 +19,7 @@ void PokemonController::addAllPokemons() {
         string ligne;
         string morceau;
         string champs[6];  // Taille connue à l'avance
+        getline(fichier, ligne);
 
         while (getline(fichier, ligne)) {
             stringstream ss(ligne);
@@ -62,6 +64,7 @@ void PokemonController::addAllPokemons() {
                 typesPoke.push_back(alTypes[15]);
             if(champs[1] == "Dragon" || champs[2] == "Dragon")
                 typesPoke.push_back(alTypes[13]);
+
             PokemonComplet pokemon(champs[0], stoi(champs[3]), champs[4], stoi(champs[5]), typesPoke);
 
             
@@ -75,8 +78,10 @@ void PokemonController::addAllPokemons() {
 
 PokemonController::~PokemonController() {
     for (int i = 0; i < 18; i++) {
-        delete alTypes[i]; 
-        alTypes[i] = nullptr;
+        if(alTypes[i] != nullptr) {
+            delete alTypes[i]; 
+            alTypes[i] = nullptr;
+        }
     }
 }
 
