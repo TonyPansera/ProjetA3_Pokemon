@@ -3,8 +3,13 @@
 #include <iostream>
 #include <sstream>
 
+
+PokemonController::PokemonController() {
+    this->typesInit();
+}
+
 void PokemonController::addAllPokemons() {
-    ifstream fichier("pokemon.csv"); // nom du fichier à lire
+    ifstream fichier("pokemon.csv"); 
 
     if (!fichier) {
         cerr << "Erreur lors de l'ouverture du fichier" << endl;
@@ -66,6 +71,13 @@ void PokemonController::addAllPokemons() {
     }
 
     
+}
+
+PokemonController::~PokemonController() {
+    for (int i = 0; i < 18; i++) {
+        delete alTypes[i]; 
+        alTypes[i] = nullptr;
+    }
 }
 
 void PokemonController::typesInit() {

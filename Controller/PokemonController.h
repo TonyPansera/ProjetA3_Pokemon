@@ -28,6 +28,7 @@ class PokemonController {
     
     public:
         PokemonController();
+        ~PokemonController();
         
         
 };

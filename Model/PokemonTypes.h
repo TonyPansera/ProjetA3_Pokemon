@@ -28,6 +28,7 @@ class PokemonComplet : public Pokemon {
     
     public:
         PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*>& pTypes);
+        ~PokemonComplet();
 };
 
 #endif 
