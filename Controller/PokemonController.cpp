@@ -1,17 +1,65 @@
 #include "PokemonController.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 void PokemonController::addAllPokemons() {
-    ifstream fichier("mon_fichier.txt"); // nom du fichier à lire
+    ifstream fichier("pokemon.csv"); // nom du fichier à lire
 
     if (!fichier) {
         cerr << "Erreur lors de l'ouverture du fichier" << endl;
 
     } else {
         string ligne;
+        string morceau;
+        string champs[6];  // Taille connue à l'avance
+
         while (getline(fichier, ligne)) {
-            cout << ligne << endl;  // Affiche chaque ligne
+            stringstream ss(ligne);
+
+            int i = 0;
+            while (getline(ss, morceau, ',') && i < 6) {
+                champs[i++] = morceau;
+            }
+
+            vector<Type*> typesPoke;
+            if(champs[1] == "Plante" || champs[2] == "Plante")
+                typesPoke.push_back(alTypes[2]);
+            if(champs[1] == "Feu" || champs[2] == "Feu")
+                typesPoke.push_back(alTypes[0]);
+            if(champs[1] == "Eau" || champs[2] == "Eau")
+                typesPoke.push_back(alTypes[1]);
+            if(champs[1] == "Insecte" || champs[2] == "Insecte")
+                typesPoke.push_back(alTypes[10]);
+            if(champs[1] == "Normal" || champs[2] == "Normal")
+                typesPoke.push_back(alTypes[17]);
+            if(champs[1] == "Poison" || champs[2] == "Poison")
+                typesPoke.push_back(alTypes[6]);
+            if(champs[1] == "Électrik" || champs[2] == "Électrik")
+                typesPoke.push_back(alTypes[0]);
+            if(champs[1] == "Sol" || champs[2] == "Sol")
+                typesPoke.push_back(alTypes[7]);
+            if(champs[1] == "Fée" || champs[2] == "Fée")
+                typesPoke.push_back(alTypes[16]);
+            if(champs[1] == "Psy" || champs[2] == "Psy")
+                typesPoke.push_back(alTypes[9]);
+            if(champs[1] == "Combat" || champs[2] == "Combat")
+                typesPoke.push_back(alTypes[5]);
+            if(champs[1] == "Glace" || champs[2] == "Glace")
+                typesPoke.push_back(alTypes[4]);
+            if(champs[1] == "Vol" || champs[2] == "Vol")
+                typesPoke.push_back(alTypes[8]);
+            if(champs[1] == "Roche" || champs[2] == "Roche")
+                typesPoke.push_back(alTypes[11]);
+            if(champs[1] == "Ténèbres" || champs[2] == "Ténèbres")
+                typesPoke.push_back(alTypes[14]);
+            if(champs[1] == "Acier" || champs[2] == "Acier")
+                typesPoke.push_back(alTypes[15]);
+            if(champs[1] == "Dragon" || champs[2] == "Dragon")
+                typesPoke.push_back(alTypes[13]);
+            PokemonComplet pokemon(champs[0], stoi(champs[3]), champs[4], stoi(champs[5]), typesPoke);
+
+            
         }
     
         fichier.close();
