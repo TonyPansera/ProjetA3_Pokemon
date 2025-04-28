@@ -12,7 +12,7 @@ class Leader : public Entraineur {
         string gymnase;
     
     public:
-        Leader(string pNom, Pokemon* pPokemons[6], string pBadge, string pGymnase);
+        Leader(string pNom, PokemonComplet* pPokemons[6], string pBadge, string pGymnase);
 };
 
 #endif

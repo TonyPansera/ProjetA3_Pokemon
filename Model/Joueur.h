@@ -4,6 +4,7 @@
 #include<string>
 #include "Entraineur.h"
 
+
 using namespace std;
 
 class Joueur : public Entraineur {
@@ -13,7 +14,8 @@ class Joueur : public Entraineur {
         int nbCombatsPerdus;
 
     public:
-        Joueur(string pNom, Pokemon* pPokemons[6]);
+        Joueur(string pNom, PokemonComplet* pPokemons[6]);
+        ~Joueur();
 };
 
 #endif

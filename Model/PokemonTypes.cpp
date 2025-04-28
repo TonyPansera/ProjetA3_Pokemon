@@ -30,13 +30,37 @@ PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegat
     types = &pTypes;
 }
 
+vector<Type*>* PokemonComplet::getTypes() {
+    return types;
+}
+
+string PokemonComplet::getNom() {
+    return nom;
+}
+
+int PokemonComplet::getPv() {
+    return pv;
+}
+
+int PokemonComplet::getDegats() {
+    return degatsAttaque;
+}
+
+int PokemonComplet::getPvActuels() {
+    return pvActuels;
+}
+
+string PokemonComplet::getAttaque() {
+    return attaque;
+}
+
 PokemonComplet::~PokemonComplet() {
     // Libération des objets Type* dans le vecteur
-    for (Type* type : *types) {
+    /*for (Type* type : *types) {
         if (type != nullptr) {
             delete type;  // Supprime chaque objet Type* dans le vecteur
         }
-    }
+    } */
     // Pas besoin de supprimer 'types' lui-même, car il n'a pas été alloué dynamiquement
 }
 

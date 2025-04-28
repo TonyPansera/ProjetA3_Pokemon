@@ -7,6 +7,52 @@
 PokemonController::PokemonController() {
     this->typesInit();
     this->addAllPokemons();
+    this->addJoueurs();
+}
+
+void PokemonController::addJoueurs() {
+    ifstream fichier("../Controller/joueur.csv"); 
+
+    if (!fichier) {
+        cerr << "Erreur lors de l'ouverture du fichier" << endl;
+
+    } else {
+        string ligne;
+        string morceau;
+        string champs[7];  // Taille connue à l'avance
+        getline(fichier, ligne);
+
+        while (getline(fichier, ligne)) {
+            stringstream ss(ligne);
+
+            int i = 0;
+            while (getline(ss, morceau, ',') && i < 7) {
+                champs[i++] = morceau;
+            }
+            
+            PokemonComplet* pokemon[6];
+            int j = 1;
+            while(!champs[j].empty() && champs[j] != "" && j < 8) {
+                for(int k = 0; k < alPokemons.size(); k++) {
+                    if(alPokemons[k].getNom() == champs[j]) {
+                        PokemonComplet* copiePoke = new PokemonComplet(alPokemons[k].getNom(), 
+                    alPokemons[k].getPv(), alPokemons[k].getAttaque(), alPokemons[k].getDegats(),
+                    *alPokemons[k].getTypes());
+
+                        pokemon[j-1] = copiePoke;
+                        
+                    }
+                }
+                j++;
+            }
+
+            Joueur joueur(champs[0], pokemon);
+            alJoueurs.push_back(joueur);
+            
+        }
+    
+        fichier.close();
+    }
 }
 
 void PokemonController::addAllPokemons() {
@@ -66,7 +112,7 @@ void PokemonController::addAllPokemons() {
                 typesPoke.push_back(alTypes[13]);
 
             PokemonComplet pokemon(champs[0], stoi(champs[3]), champs[4], stoi(champs[5]), typesPoke);
-
+            alPokemons.push_back(pokemon);
             
         }
     
@@ -83,6 +129,7 @@ PokemonController::~PokemonController() {
             alTypes[i] = nullptr;
         }
     }
+
 }
 
 void PokemonController::typesInit() {
