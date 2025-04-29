@@ -8,6 +8,55 @@ PokemonController::PokemonController() {
     this->typesInit();
     this->addAllPokemons();
     this->addJoueurs();
+    this->addLeaders();
+}
+
+void PokemonController::addLeaders() {
+    ifstream fichier("../Controller/leaders.csv"); 
+
+    if (!fichier) {
+        cerr << "Erreur lors de l'ouverture du fichier" << endl;
+
+    } else {
+        string ligne;
+        string morceau;
+        string champs[9];  // Taille connue à l'avance
+        getline(fichier, ligne);
+
+        while (getline(fichier, ligne)) {
+            stringstream ss(ligne);
+
+            int i = 0;
+            while (getline(ss, morceau, ',') && i < 9) {
+                champs[i++] = morceau;
+            }
+            
+            PokemonComplet* pokemon[6];
+            for (int i = 0; i < 6; ++i) {
+                pokemon[i] = nullptr;
+            }
+            int j = 3;
+            while(!champs[j].empty() && champs[j] != "" && j < 9) {
+                for(int k = 0; k < alPokemons.size(); k++) {
+                    if(alPokemons[k].getNom() == champs[j]) {
+                        PokemonComplet* copiePoke = new PokemonComplet(alPokemons[k].getNom(), 
+                    alPokemons[k].getPv(), alPokemons[k].getAttaque(), alPokemons[k].getDegats(),
+                    alPokemons[k].getTypes());
+
+                        pokemon[j-3] = copiePoke;
+                        
+                    }
+                }
+                j++;
+            }
+
+            Leader leader(champs[0], pokemon, champs[2], champs[1]);
+            alLeaders.push_back(leader);
+            
+        }
+    
+        fichier.close();
+    }
 }
 
 void PokemonController::addJoueurs() {
@@ -31,13 +80,16 @@ void PokemonController::addJoueurs() {
             }
             
             PokemonComplet* pokemon[6];
+            for (int i = 0; i < 6; ++i) {
+                pokemon[i] = nullptr;
+            }
             int j = 1;
-            while(!champs[j].empty() && champs[j] != "" && j < 8) {
+            while(!champs[j].empty() && champs[j] != "" && j < 7) {
                 for(int k = 0; k < alPokemons.size(); k++) {
                     if(alPokemons[k].getNom() == champs[j]) {
                         PokemonComplet* copiePoke = new PokemonComplet(alPokemons[k].getNom(), 
                     alPokemons[k].getPv(), alPokemons[k].getAttaque(), alPokemons[k].getDegats(),
-                    *alPokemons[k].getTypes());
+                    alPokemons[k].getTypes());
 
                         pokemon[j-1] = copiePoke;
                         

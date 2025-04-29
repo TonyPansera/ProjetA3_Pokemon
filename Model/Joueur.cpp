@@ -8,10 +8,5 @@ Joueur::Joueur(string pNom, PokemonComplet* pPokemons[6]) : Entraineur(pNom, pPo
 }
 
 Joueur::~Joueur() {
-    for(int i = 0; i < 6; i++) {
-        if(pokemons[i] != nullptr) {
-            delete pokemons[i];
-            pokemons[i] = nullptr;
-        }
-    }
+    
 }

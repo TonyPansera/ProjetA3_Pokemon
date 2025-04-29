@@ -25,12 +25,12 @@ bool Type::isRes(string nomType) {
     return false;
 }
 
-PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*>& pTypes) : Pokemon(pNom, pPv, pAttaque, pDegats) {
+PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*> pTypes) : Pokemon(pNom, pPv, pAttaque, pDegats) {
     pvActuels = pPv;
-    types = &pTypes;
+    types = pTypes;
 }
 
-vector<Type*>* PokemonComplet::getTypes() {
+vector<Type*> PokemonComplet::getTypes() {
     return types;
 }
 

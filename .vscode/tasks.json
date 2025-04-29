@@ -13,6 +13,7 @@
                 "${fileDirname}/../Model/Pokemon.cpp",
                 "${fileDirname}/../Model/Joueur.cpp",
                 "${fileDirname}/../Model/Entraineur.cpp",
+                "${fileDirname}/../Model/Leader.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

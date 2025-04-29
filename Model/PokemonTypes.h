@@ -22,15 +22,15 @@ struct Type {
 
 class PokemonComplet : public Pokemon {
     private:
-        vector<Type*>* types;
+        vector<Type*> types;
         
         int pvActuels;
     
     public:
-        PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*>& pTypes);
+        PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*> pTypes);
         ~PokemonComplet();
 
-        vector<Type*>* getTypes();
+        vector<Type*> getTypes();
         string getNom();
         int getPv();
         string getAttaque();
