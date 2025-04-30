@@ -59,6 +59,15 @@ int main() {
                 }
                 
             }
+        } else if(option == 2) {
+            cout << "Récupération des PV des Pokemons... " << endl;
+            for(int i = 0; i < 7; i++) {
+                if(poke.getAllJoueurs()[idJoueur].getPokemon(i) != nullptr) {
+                    poke.getAllJoueurs()[idJoueur].getPokemon(i)->setPvActuels();
+                }
+            }
+            cout << "PV récupérés !" << endl;
+
         }
 
     } while(option != 8);
