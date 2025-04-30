@@ -25,6 +25,27 @@ bool Type::isRes(string nomType) {
     return false;
 }
 
+string PokemonComplet::toString() {
+    string result = "Nom : " + nom + "\n";
+    if(types.size() == 1) {
+        result += "Type : ";
+    } else {
+        result += "Types : ";
+    }
+    for(int i = 0; i < types.size(); i++) {
+        result += types[i]->getType() + " ";
+    }
+    result += "\n";
+    result += "PV actuels : " + to_string(pvActuels);
+    result += "\n";
+    result += "PV max : " + to_string(pv);
+    result += "\n";
+    result += "Attaque : " + attaque + "\n";
+    result += "Dégâts : " + to_string(degatsAttaque);
+
+    return result;
+}
+
 PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*> pTypes) : Pokemon(pNom, pPv, pAttaque, pDegats) {
     pvActuels = pPv;
     types = pTypes;

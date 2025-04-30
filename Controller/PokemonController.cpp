@@ -11,6 +11,10 @@ PokemonController::PokemonController() {
     this->addLeaders();
 }
 
+vector<Joueur> PokemonController::getAllJoueurs() {
+    return alJoueurs;
+}
+
 void PokemonController::addLeaders() {
     ifstream fichier("../Controller/leaders.csv"); 
 

@@ -29,6 +29,10 @@ class PokemonController {
     public:
         PokemonController();
         ~PokemonController();
+
+        vector<Joueur> getAllJoueurs();
+
+        
         
         
 };

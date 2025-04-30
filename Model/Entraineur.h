@@ -13,6 +13,10 @@ class Entraineur {
     public:
         Entraineur(string pNom, PokemonComplet* pPokemons[6]);
         virtual ~Entraineur();
+
+        string getNom();
+        PokemonComplet* getPokemon(int index);
+        
 };
 
 #endif
