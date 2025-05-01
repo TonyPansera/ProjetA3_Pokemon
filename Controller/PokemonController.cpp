@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <ctime>
 
 
 PokemonController::PokemonController() {
@@ -9,7 +10,22 @@ PokemonController::PokemonController() {
     this->addAllPokemons();
     this->addJoueurs();
     this->addLeaders();
+    nbEntraineursBattus = 0;
 }
+
+int PokemonController::getNbEntraineursBattus() {
+    return nbEntraineursBattus;
+}
+
+Entraineur PokemonController::getBeatenTrainer() {
+     // initialisation une seule fois
+
+    int n = std::rand() % entraineursBattus.size(); // nombre entre 1 et 6
+
+    return entraineursBattus[n];
+
+    
+};
 
 vector<Joueur>& PokemonController::getAllJoueurs() {
     return alJoueurs;

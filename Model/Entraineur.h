@@ -15,7 +15,12 @@ class Entraineur {
         virtual ~Entraineur();
 
         string getNom();
+        string interaction();
         PokemonComplet* getPokemon(int index);
+
+        PokemonComplet** getPokemons();
+        
+        
         
 };
 

@@ -14,7 +14,9 @@ class Pokemon {
     
     public: 
         Pokemon(string pNom, int pPv, string pAttaque, int pDegats);
-        virtual ~Pokemon() {}
+        virtual ~Pokemon();
+
+        string interaction();
 };
 
 #endif

@@ -16,6 +16,9 @@ class PokemonController {
         vector<Maitre> alMaitres;
         vector<Leader> alLeaders;
 
+        vector<Entraineur> entraineursBattus;
+        int nbEntraineursBattus;
+
         Type* alTypes[18];
 
         void typesInit();
@@ -24,16 +27,14 @@ class PokemonController {
         void addMaitres();
         void addLeaders();
 
-
-    
     public:
         PokemonController();
         ~PokemonController();
 
-        vector<Joueur>& getAllJoueurs();
+        int getNbEntraineursBattus();
 
-        
-        
+        vector<Joueur>& getAllJoueurs();
+        Entraineur getBeatenTrainer();     
         
 };
 

@@ -1,10 +1,12 @@
 #include <iostream>
+#include <ctime>
 #include "../Controller/PokemonController.h"
 
 using namespace std;
 
 
 int main() {
+    std::srand(static_cast<unsigned int>(std::time(nullptr)));
     PokemonController poke;
     cout << "Tesst" << endl;
 
@@ -107,6 +109,42 @@ int main() {
         } else if(option == 4) {
             cout << "Statistiques du Joueur :" << endl;
             cout << poke.getAllJoueurs()[idJoueur].statistiques() << endl;
+        } else if(option == 5) {
+
+        } else if(option == 6) {
+
+        } else if(option == 7) {
+            int choix = -1;
+            cout << "Voulez-vous interagir avec :" << endl;
+            cout << "1. Un Pokemon" << endl;
+            cout << "2. Un Entraineur battu" << endl;
+            cin >> choix;
+            while(choix != 1 && choix != 2) {
+                cout << "Choix incorrect ! Sélectionnez un bon choix :" << endl;
+                cin >> choix;
+            }
+
+            if(choix == 1) {
+                PokemonComplet** pokeJoueur = poke.getAllJoueurs()[idJoueur].getPokemons();
+                int nbP = 0;
+                for(int i = 0; i < 7; i++) {
+                    if(pokeJoueur[i] != nullptr) {
+                        nbP++;
+                    }
+                }
+                if(nbP == 0) {
+                    cout << "Vous n'avez aucun Pokemon !" << endl;
+                } else {
+                    int n = std::rand() % nbP; // nombre entre 0 et 5
+                    cout << poke.getAllJoueurs()[idJoueur].getPokemon(n)->interaction() << endl;
+                }
+            } else {
+                if(poke.getNbEntraineursBattus() == 0) {
+                    cout << "Vous n'avez battu aucun Entraineur !" << endl;
+                } else {
+                    cout << poke.getBeatenTrainer().interaction() << endl;
+                }
+            }
         }
 
     } while(option != 8);
