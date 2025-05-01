@@ -15,6 +15,18 @@ string Joueur::statistiques() {
     return result;
 }
 
+void Joueur::ajouterBadge() {
+    nbBadgesRemportes++;
+}
+
+void Joueur::ajouterCombatGagne() {
+    nbCombatsGagnes++;
+}
+
+void Joueur::ajouterCombatPerdu() {
+    nbCombatsPerdus++;
+}
+
 void Joueur::changerEmplacement(int idChange, int idNouveau) {
     if(idChange == idNouveau)
         return;

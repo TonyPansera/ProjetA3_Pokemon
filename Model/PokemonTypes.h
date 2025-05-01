@@ -37,9 +37,12 @@ class PokemonComplet : public Pokemon {
         int getDegats();
         int getPvActuels();
 
-        void setPvActuels();
+        void resetPvActuels();
+
+        void setPvActuels(int a);
 
         string toString();
+        string pvString();
 };
 
 #endif 

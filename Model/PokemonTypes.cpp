@@ -25,8 +25,12 @@ bool Type::isRes(string nomType) {
     return false;
 }
 
-void PokemonComplet::setPvActuels() {
+void PokemonComplet::resetPvActuels() {
     pvActuels = pv;
+}
+
+void PokemonComplet::setPvActuels(int a) {
+    pvActuels = a;
 }
 
 string PokemonComplet::toString() {
@@ -53,6 +57,10 @@ string PokemonComplet::toString() {
 PokemonComplet::PokemonComplet(string pNom, int pPv, string pAttaque, int pDegats, vector<Type*> pTypes) : Pokemon(pNom, pPv, pAttaque, pDegats) {
     pvActuels = pPv;
     types = pTypes;
+}
+
+string PokemonComplet::pvString() {
+    return nom + " est actuellement à " + to_string(pvActuels);
 }
 
 vector<Type*> PokemonComplet::getTypes() {

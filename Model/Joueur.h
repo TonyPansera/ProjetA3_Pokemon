@@ -17,6 +17,9 @@ class Joueur : public Entraineur {
         Joueur(string pNom, PokemonComplet* pPokemons[6]);
         ~Joueur();
 
+        void ajouterBadge();
+        void ajouterCombatGagne();
+        void ajouterCombatPerdu();
         void changerEmplacement(int idChange, int idNouveau);
         string statistiques();
 };

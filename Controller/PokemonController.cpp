@@ -13,8 +13,153 @@ PokemonController::PokemonController() {
     nbEntraineursBattus = 0;
 }
 
+string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
+    string result = "";
+    int pokemonJoueurIndex = 0; // Obtenir le pokemon joueur démarrant
+    bool found = false;
+    for(int i = 0; i < 6 && !found; i++) {
+        if(joueur.getPokemon(i) != nullptr && joueur.getPokemon(i)->getPvActuels() > 0) {
+            found = true;
+            pokemonJoueurIndex = i;
+        }
+    }
+
+    int pokemonLeaderIndex = 0; // Obtenir le pokemon leader démarrant
+    found = false;
+    for(int i = 0; i < 6 && !found; i++) {
+        if(leader.getPokemon(i) != nullptr && leader.getPokemon(i)->getPvActuels() > 0) {
+            pokemonLeaderIndex = i;
+            found = true;
+        }
+    }
+
+    while(pokemonJoueurIndex < 6 && pokemonLeaderIndex < 6 && 
+        leader.getPokemon(pokemonLeaderIndex) != nullptr && joueur.getPokemon(pokemonJoueurIndex) != nullptr) {
+            
+            // JOUEUR QUI ATTAQUE ENTRAINEUR
+            int deg = joueur.getPokemon(pokemonJoueurIndex)->getDegats();
+            result += joueur.getPokemon(pokemonJoueurIndex)->attaqueString() + "\n";
+            bool isResFai = false;
+
+            // OK ça commence à être un peu le bordel là
+            // Première boucle qui parcours les types du pokémon attaquant
+            for(int i = 0; i < joueur.getPokemon(pokemonJoueurIndex)->getTypes().size(); i++) {
+
+                // Deuxième boucle qui parcours les types du pokemon défendant
+                for(int j = 0; j < leader.getPokemon(pokemonLeaderIndex)->getTypes().size(); j++) {
+
+                    // Troisième boucle qui parcours les faiblesses du pokémon défendant, en fonction de 
+                    // ses types (donc on a getTypes()[j])
+                    for(int k = 0; k < leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->faiblesses.size(); k++) {
+                        if(joueur.getPokemon(pokemonJoueurIndex)->getTypes()[i]->getType() == 
+                        leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->faiblesses[k]->getType()) {
+                            deg *= 2;
+                            result += "C'est très efficace ! Il inflige " + to_string(deg) + " dégâts ! \n";
+                            isResFai = true;
+                        }
+                    }
+
+                    // Quatrième boucle qui parcours les résistances du pokémon défendant, en fonction de 
+                    // ses types (donc on a getTypes()[j])
+                    for(int k = 0; k < leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->resistances.size(); k++) {
+                        if(joueur.getPokemon(pokemonJoueurIndex)->getTypes()[i]->getType() == 
+                        leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->resistances[k]->getType()) {
+                            deg /= 2;
+                            isResFai = true;
+                            result += "Ce n'est pas très efficace... Il inflige " + to_string(deg) + " dégâts ! \n";
+                        }
+                    }
+                }
+            }
+            if(!isResFai) {
+                result += "C'est moyennement efficace. Il inflige " + to_string(deg) + " dégâts ! \n";
+            }
+            if(leader.getPokemon(pokemonLeaderIndex)->getPvActuels() <= deg) {
+                leader.getPokemon(pokemonLeaderIndex)->setPvActuels(0);
+                result += leader.getPokemon(pokemonLeaderIndex)->getNom() + " est K.O.";
+                pokemonLeaderIndex++;
+            } else {
+                leader.getPokemon(pokemonLeaderIndex)->setPvActuels(leader.getPokemon(pokemonLeaderIndex)->getPv() - deg);
+            }
+
+            
+            if(pokemonJoueurIndex < 6 && pokemonLeaderIndex < 6 && 
+                leader.getPokemon(pokemonLeaderIndex) != nullptr && joueur.getPokemon(pokemonJoueurIndex) != nullptr) {
+                    // ENTRAINEUR QUI ATTAQUE JOUEUR
+                deg = leader.getPokemon(pokemonLeaderIndex)->getDegats();
+                result += leader.getPokemon(pokemonLeaderIndex)->attaqueString() + "\n";
+                isResFai = false;
+
+                // OK ça commence à être un peu le bordel là
+                // Première boucle qui parcours les types du pokémon attaquant
+                for(int i = 0; i < leader.getPokemon(pokemonLeaderIndex)->getTypes().size(); i++) {
+
+                    // Deuxième boucle qui parcours les types du pokemon défendant
+                    for(int j = 0; j < joueur.getPokemon(pokemonJoueurIndex)->getTypes().size(); j++) {
+
+                        // Troisième boucle qui parcours les faiblesses du pokémon défendant, en fonction de 
+                        // ses types (donc on a getTypes()[j])
+                        for(int k = 0; k < joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->faiblesses.size(); k++) {
+                            if(leader.getPokemon(pokemonLeaderIndex)->getTypes()[i]->getType() == 
+                            joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->faiblesses[k]->getType()) {
+                                deg *= 2;
+                                result += "C'est très efficace ! Il inflige " + to_string(deg) + " dégâts ! \n";
+                                isResFai = true;
+                            }
+                        }
+
+                        // Quatrième boucle qui parcours les résistances du pokémon défendant, en fonction de 
+                        // ses types (donc on a getTypes()[j])
+                        for(int k = 0; k < joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->resistances.size(); k++) {
+                            if(leader.getPokemon(pokemonLeaderIndex)->getTypes()[i]->getType() == 
+                            joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->resistances[k]->getType()) {
+                                deg /= 2;
+                                isResFai = true;
+                                result += "Ce n'est pas très efficace... Il inflige " + to_string(deg) + " dégâts ! \n";
+                            }
+                        }
+                    }
+                }
+                if(!isResFai) {
+                    result += "C'est moyennement efficace. Il inflige " + to_string(deg) + " dégâts ! \n";
+                }
+                if(joueur.getPokemon(pokemonJoueurIndex)->getPvActuels() <= deg) {
+                    joueur.getPokemon(pokemonJoueurIndex)->setPvActuels(0);
+                    result += joueur.getPokemon(pokemonJoueurIndex)->getNom() + " est K.O. \n";
+                    pokemonJoueurIndex++;
+                } else {
+                    joueur.getPokemon(pokemonJoueurIndex)->setPvActuels(joueur.getPokemon(pokemonJoueurIndex)->getPv() - deg);
+                }
+            }
+
+            
+    }
+    // FIN DU JEU
+    if(pokemonJoueurIndex >= 6 || joueur.getPokemon(pokemonJoueurIndex) == nullptr) {
+        result += "Vous avez perdu... Revenez une prochaine fois !";
+        joueur.ajouterCombatPerdu();
+    } else if(pokemonLeaderIndex >= 6 || leader.getPokemon(pokemonLeaderIndex) == nullptr) {
+        result += "Vous avez gagné !";
+        entraineursBattus.push_back(leader);
+        joueur.ajouterBadge();
+        joueur.ajouterCombatGagne();
+    }
+
+    return result;
+    
+
+}
+
+vector<Leader>& PokemonController:: getAllLeader() {
+    return alLeaders;
+}
+
 int PokemonController::getNbEntraineursBattus() {
     return nbEntraineursBattus;
+}
+
+void PokemonController::addEntraineursBattus() {
+    nbEntraineursBattus++;
 }
 
 Entraineur PokemonController::getBeatenTrainer() {
@@ -161,7 +306,7 @@ void PokemonController::addAllPokemons() {
             if(champs[1] == "Poison" || champs[2] == "Poison")
                 typesPoke.push_back(alTypes[6]);
             if(champs[1] == "Électrik" || champs[2] == "Électrik")
-                typesPoke.push_back(alTypes[0]);
+                typesPoke.push_back(alTypes[3]);
             if(champs[1] == "Sol" || champs[2] == "Sol")
                 typesPoke.push_back(alTypes[7]);
             if(champs[1] == "Fée" || champs[2] == "Fée")

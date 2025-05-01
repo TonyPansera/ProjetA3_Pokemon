@@ -65,7 +65,7 @@ int main() {
             cout << "Récupération des PV des Pokemons... " << endl;
             for(int i = 0; i < 7; i++) {
                 if(poke.getAllJoueurs()[idJoueur].getPokemon(i) != nullptr) {
-                    poke.getAllJoueurs()[idJoueur].getPokemon(i)->setPvActuels();
+                    poke.getAllJoueurs()[idJoueur].getPokemon(i)->resetPvActuels();
                 }
             }
             cout << "PV récupérés !" << endl;
@@ -110,7 +110,7 @@ int main() {
             cout << "Statistiques du Joueur :" << endl;
             cout << poke.getAllJoueurs()[idJoueur].statistiques() << endl;
         } else if(option == 5) {
-
+            cout << poke.combatMaitre(poke.getAllJoueurs()[0], poke.getAllLeader()[0]) << endl;
         } else if(option == 6) {
 
         } else if(option == 7) {

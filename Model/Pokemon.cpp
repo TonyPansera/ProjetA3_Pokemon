@@ -8,7 +8,13 @@ Pokemon::Pokemon(string pNom, int pPv, string pAttaque, int pDegats) {
 }
 
 Pokemon::~Pokemon() {
-    
+
+}
+
+string Pokemon::attaqueString() {
+    string res = "";
+    res += nom + " utilise " + attaque;
+    return res;
 }
 
 string Pokemon::interaction() {

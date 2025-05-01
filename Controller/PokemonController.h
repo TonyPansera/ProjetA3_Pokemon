@@ -32,10 +32,12 @@ class PokemonController {
         ~PokemonController();
 
         int getNbEntraineursBattus();
+        void addEntraineursBattus();
 
         vector<Joueur>& getAllJoueurs();
+        vector<Leader>& getAllLeader();
         Entraineur getBeatenTrainer();     
-        
+        string combatMaitre(Joueur& joueur, Leader& leader);
 };
 
 #endif

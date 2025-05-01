@@ -16,6 +16,7 @@ class Pokemon {
         Pokemon(string pNom, int pPv, string pAttaque, int pDegats);
         virtual ~Pokemon();
 
+        string attaqueString();
         string interaction();
 };
 
