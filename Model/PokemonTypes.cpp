@@ -25,6 +25,10 @@ bool Type::isRes(string nomType) {
     return false;
 }
 
+void PokemonComplet::setPvActuels() {
+    pvActuels = pv;
+}
+
 string PokemonComplet::toString() {
     string result = "Nom : " + nom + "\n";
     if(types.size() == 1) {

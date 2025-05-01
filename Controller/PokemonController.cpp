@@ -11,7 +11,7 @@ PokemonController::PokemonController() {
     this->addLeaders();
 }
 
-vector<Joueur> PokemonController::getAllJoueurs() {
+vector<Joueur>& PokemonController::getAllJoueurs() {
     return alJoueurs;
 }
 

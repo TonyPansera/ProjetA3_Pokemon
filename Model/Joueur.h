@@ -16,6 +16,9 @@ class Joueur : public Entraineur {
     public:
         Joueur(string pNom, PokemonComplet* pPokemons[6]);
         ~Joueur();
+
+        void changerEmplacement(int idChange, int idNouveau);
+        string statistiques();
 };
 
 #endif

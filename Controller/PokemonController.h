@@ -30,7 +30,7 @@ class PokemonController {
         PokemonController();
         ~PokemonController();
 
-        vector<Joueur> getAllJoueurs();
+        vector<Joueur>& getAllJoueurs();
 
         
         

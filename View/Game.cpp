@@ -67,7 +67,46 @@ int main() {
                 }
             }
             cout << "PV récupérés !" << endl;
+        } else if(option == 3) {
+            int idChange = -1; // id du Pokemon à déplacer
+            int idNouveau = -1; // nouvel emplacement du Pokemon
 
+            cout << "Les Pokemons sont actuellement dans cet ordre : " << endl;
+            int a = 0; // Pour avoir le nombre de pokemons possédés
+            for(int i = 0; i < 7; i++) {
+                if(poke.getAllJoueurs()[idJoueur].getPokemon(i) != nullptr) {
+                    cout << i + 1 << ". " + poke.getAllJoueurs()[idJoueur].getPokemon(i)->getNom() << endl;
+                    a++;
+                }
+            }
+            cout << "Choisir le Pokemon à changer de place : " << endl;
+            cin >> idChange;
+            while(idChange <= 0 || idChange > a) {
+                // [1 - nombre de pokémon possédés]
+                cout << "Numéro incorrect ! " << endl;
+                cout << "Choisir le Pokemon à changer de place : " << endl;
+                cin >> idChange;
+            }
+            cout << "Choisir le nouvel emplacement : " << endl;
+            cin >> idNouveau;
+            while(idNouveau <= 0 || idNouveau > a) {
+                // [1 - nombre de pokémon possédés]
+                cout << "Numéro incorrect ! " << endl;
+                cout << "Choisir le nouvel emplacement : " << endl;
+                cin >> idNouveau;
+            }
+            poke.getAllJoueurs()[idJoueur].changerEmplacement(idChange-1, idNouveau-1);
+            cout << "Échange effectué !" << endl;
+
+            cout << "Les Pokemons sont maintenant dans cet ordre : " << endl;
+            for(int i = 0; i < 7; i++) {
+                if(poke.getAllJoueurs()[idJoueur].getPokemon(i) != nullptr) {
+                    cout << i + 1 << ". " + poke.getAllJoueurs()[idJoueur].getPokemon(i)->getNom() << endl;
+                }
+            }
+        } else if(option == 4) {
+            cout << "Statistiques du Joueur :" << endl;
+            cout << poke.getAllJoueurs()[idJoueur].statistiques() << endl;
         }
 
     } while(option != 8);
