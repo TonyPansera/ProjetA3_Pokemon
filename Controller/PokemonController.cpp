@@ -3,6 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <ctime>
+#include <algorithm>
 
 
 PokemonController::PokemonController() {
@@ -10,10 +11,22 @@ PokemonController::PokemonController() {
     this->addAllPokemons();
     this->addJoueurs();
     this->addLeaders();
+    this->addMaitres();
     nbEntraineursBattus = 0;
 }
 
-string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
+string PokemonController::affronterMaitre(Joueur& joueur, Entraineur& leader) {
+    string result = "";
+    if(alLeaders.size() == 0) {
+        result += combat(joueur, leader, true);
+    } else {
+        result += "Vous n'avez pas battu tous les Leaders !";
+    }
+    return result;
+}
+
+
+string PokemonController::combat(Joueur& joueur, Entraineur& leader, bool isMaitre) {
     string result = "";
     int pokemonJoueurIndex = 0; // Obtenir le pokemon joueur démarrant
     bool found = false;
@@ -21,6 +34,8 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
         if(joueur.getPokemon(i) != nullptr && joueur.getPokemon(i)->getPvActuels() > 0) {
             found = true;
             pokemonJoueurIndex = i;
+        } else {
+            pokemonJoueurIndex++;
         }
     }
 
@@ -28,8 +43,10 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
     found = false;
     for(int i = 0; i < 6 && !found; i++) {
         if(leader.getPokemon(i) != nullptr && leader.getPokemon(i)->getPvActuels() > 0) {
-            pokemonLeaderIndex = i;
             found = true;
+            pokemonLeaderIndex = i;
+        } else{
+            pokemonLeaderIndex++;
         }
     }
 
@@ -38,8 +55,9 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
             
             // JOUEUR QUI ATTAQUE ENTRAINEUR
             int deg = joueur.getPokemon(pokemonJoueurIndex)->getDegats();
+            int baseDeg = deg;
             result += joueur.getPokemon(pokemonJoueurIndex)->attaqueString() + "\n";
-            bool isResFai = false;
+           
 
             // OK ça commence à être un peu le bordel là
             // Première boucle qui parcours les types du pokémon attaquant
@@ -54,8 +72,6 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
                         if(joueur.getPokemon(pokemonJoueurIndex)->getTypes()[i]->getType() == 
                         leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->faiblesses[k]->getType()) {
                             deg *= 2;
-                            result += "C'est très efficace ! Il inflige " + to_string(deg) + " dégâts ! \n";
-                            isResFai = true;
                         }
                     }
 
@@ -65,30 +81,37 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
                         if(joueur.getPokemon(pokemonJoueurIndex)->getTypes()[i]->getType() == 
                         leader.getPokemon(pokemonLeaderIndex)->getTypes()[j]->resistances[k]->getType()) {
                             deg /= 2;
-                            isResFai = true;
-                            result += "Ce n'est pas très efficace... Il inflige " + to_string(deg) + " dégâts ! \n";
                         }
                     }
                 }
             }
-            if(!isResFai) {
-                result += "C'est moyennement efficace. Il inflige " + to_string(deg) + " dégâts ! \n";
+
+            if(deg > baseDeg) {
+                result += "C'est très efficace ! " + joueur.getPokemon(pokemonJoueurIndex)->getNom() + " inflige "
+                + to_string(deg) + " dégats ! \n";
+            } else if(deg < baseDeg) {
+                result += "Ce n'est pas très efficace..." + joueur.getPokemon(pokemonJoueurIndex)->getNom() + " inflige "
+                + to_string(deg) + " dégats. \n";
+            } else {
+                result += joueur.getPokemon(pokemonJoueurIndex)->getNom() + " inflige "
+                + to_string(deg) + " dégats. \n";
             }
+
             if(leader.getPokemon(pokemonLeaderIndex)->getPvActuels() <= deg) {
                 leader.getPokemon(pokemonLeaderIndex)->setPvActuels(0);
-                result += leader.getPokemon(pokemonLeaderIndex)->getNom() + " est K.O.";
+                result += leader.getPokemon(pokemonLeaderIndex)->getNom() + " est K.O. \n";
                 pokemonLeaderIndex++;
             } else {
                 leader.getPokemon(pokemonLeaderIndex)->setPvActuels(leader.getPokemon(pokemonLeaderIndex)->getPv() - deg);
             }
 
-            
+
             if(pokemonJoueurIndex < 6 && pokemonLeaderIndex < 6 && 
                 leader.getPokemon(pokemonLeaderIndex) != nullptr && joueur.getPokemon(pokemonJoueurIndex) != nullptr) {
                     // ENTRAINEUR QUI ATTAQUE JOUEUR
                 deg = leader.getPokemon(pokemonLeaderIndex)->getDegats();
+                baseDeg = deg;
                 result += leader.getPokemon(pokemonLeaderIndex)->attaqueString() + "\n";
-                isResFai = false;
 
                 // OK ça commence à être un peu le bordel là
                 // Première boucle qui parcours les types du pokémon attaquant
@@ -103,8 +126,6 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
                             if(leader.getPokemon(pokemonLeaderIndex)->getTypes()[i]->getType() == 
                             joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->faiblesses[k]->getType()) {
                                 deg *= 2;
-                                result += "C'est très efficace ! Il inflige " + to_string(deg) + " dégâts ! \n";
-                                isResFai = true;
                             }
                         }
 
@@ -114,15 +135,28 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
                             if(leader.getPokemon(pokemonLeaderIndex)->getTypes()[i]->getType() == 
                             joueur.getPokemon(pokemonJoueurIndex)->getTypes()[j]->resistances[k]->getType()) {
                                 deg /= 2;
-                                isResFai = true;
-                                result += "Ce n'est pas très efficace... Il inflige " + to_string(deg) + " dégâts ! \n";
                             }
                         }
                     }
                 }
-                if(!isResFai) {
-                    result += "C'est moyennement efficace. Il inflige " + to_string(deg) + " dégâts ! \n";
+
+                if(deg > baseDeg) {
+                    if(isMaitre)
+                        deg *= 1.25;
+                    result += "C'est très efficace ! " + leader.getPokemon(pokemonLeaderIndex)->getNom() + " inflige "
+                    + to_string(deg) + " dégats ! \n";
+                } else if(deg < baseDeg) {
+                    if(isMaitre)
+                        deg *= 1.25;
+                    result += "Ce n'est pas très efficace..." + leader.getPokemon(pokemonLeaderIndex)->getNom() + " inflige "
+                    + to_string(deg) + " dégats. \n";
+                } else {
+                    if(isMaitre)
+                        deg *= 1.25;
+                    result += leader.getPokemon(pokemonLeaderIndex)->getNom() + " inflige "
+                    + to_string(deg) + " dégats. \n";
                 }
+
                 if(joueur.getPokemon(pokemonJoueurIndex)->getPvActuels() <= deg) {
                     joueur.getPokemon(pokemonJoueurIndex)->setPvActuels(0);
                     result += joueur.getPokemon(pokemonJoueurIndex)->getNom() + " est K.O. \n";
@@ -139,9 +173,17 @@ string PokemonController::combatMaitre(Joueur& joueur, Leader& leader) {
         result += "Vous avez perdu... Revenez une prochaine fois !";
         joueur.ajouterCombatPerdu();
     } else if(pokemonLeaderIndex >= 6 || leader.getPokemon(pokemonLeaderIndex) == nullptr) {
-        result += "Vous avez gagné !";
-        entraineursBattus.push_back(leader);
-        joueur.ajouterBadge();
+        result += "Vous avez gagné ! \n";
+        if(isMaitre) {
+            result += "Vous avez battu un Maitre !";
+            entraineursBattus.push_back(leader);
+            alMaitres.erase(std::remove(alMaitres.begin(), alMaitres.end(), leader), alMaitres.end());
+        } else {
+            alLeaders.erase(std::remove(alLeaders.begin(), alLeaders.end(), leader), alLeaders.end()); // enlever le leader battu
+            addEntraineursBattus();
+            entraineursBattus.push_back(leader);
+            joueur.ajouterBadge();
+        }
         joueur.ajouterCombatGagne();
     }
 
@@ -172,8 +214,60 @@ Entraineur PokemonController::getBeatenTrainer() {
     
 };
 
+vector<Maitre>& PokemonController::getAllMaitre() {
+    return alMaitres;
+}
+
 vector<Joueur>& PokemonController::getAllJoueurs() {
     return alJoueurs;
+}
+
+void PokemonController::addMaitres() {
+    ifstream fichier("../Controller/maitres.csv"); 
+
+    if (!fichier) {
+        cerr << "Erreur lors de l'ouverture du fichier" << endl;
+
+    } else {
+        string ligne;
+        string morceau;
+        string champs[7];  // Taille connue à l'avance
+        getline(fichier, ligne);
+
+        while (getline(fichier, ligne)) {
+            stringstream ss(ligne);
+
+            int i = 0;
+            while (getline(ss, morceau, ',') && i < 7) {
+                champs[i++] = morceau;
+            }
+            
+            PokemonComplet* pokemon[6];
+            for (int i = 0; i < 6; ++i) {
+                pokemon[i] = nullptr;
+            }
+            int j = 1;
+            while(!champs[j].empty() && champs[j] != "" && j < 7) {
+                for(int k = 0; k < alPokemons.size(); k++) {
+                    if(alPokemons[k].getNom() == champs[j]) {
+                        PokemonComplet* copiePoke = new PokemonComplet(alPokemons[k].getNom(), 
+                    alPokemons[k].getPv(), alPokemons[k].getAttaque(), alPokemons[k].getDegats(),
+                    alPokemons[k].getTypes());
+
+                        pokemon[j-1] = copiePoke;
+                        
+                    }
+                }
+                j++;
+            }
+
+            Maitre maitre(champs[0], pokemon);
+            alMaitres.push_back(maitre);
+            
+        }
+    
+        fichier.close();
+    }
 }
 
 void PokemonController::addLeaders() {

@@ -36,8 +36,11 @@ class PokemonController {
 
         vector<Joueur>& getAllJoueurs();
         vector<Leader>& getAllLeader();
+        vector<Maitre>& getAllMaitre();
         Entraineur getBeatenTrainer();     
-        string combatMaitre(Joueur& joueur, Leader& leader);
+        string combat(Joueur& joueur, Entraineur& leader, bool isMaitre);
+
+        string affronterMaitre(Joueur& joueur, Entraineur& leader);
 };
 
 #endif

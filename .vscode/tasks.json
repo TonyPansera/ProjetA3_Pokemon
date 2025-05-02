@@ -14,6 +14,7 @@
                 "${fileDirname}/../Model/Joueur.cpp",
                 "${fileDirname}/../Model/Entraineur.cpp",
                 "${fileDirname}/../Model/Leader.cpp",
+                "${fileDirname}/../Model/Maitre.cpp",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

@@ -17,7 +17,9 @@ PokemonComplet** Entraineur::getPokemons() {
     return pokemons;
 }
 
-
+bool Entraineur::operator==(const Entraineur& autre) const {
+    return this->nom == autre.nom;
+}
 
 string Entraineur::interaction() {
     string quotes[6] = {

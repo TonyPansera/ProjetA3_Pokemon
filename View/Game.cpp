@@ -110,9 +110,18 @@ int main() {
             cout << "Statistiques du Joueur :" << endl;
             cout << poke.getAllJoueurs()[idJoueur].statistiques() << endl;
         } else if(option == 5) {
-            cout << poke.combatMaitre(poke.getAllJoueurs()[0], poke.getAllLeader()[0]) << endl;
+            if(poke.getAllLeader().size() != 0) {
+                cout << poke.combat(poke.getAllJoueurs()[idJoueur], poke.getAllLeader()[0], false) << endl;
+            } else {
+                cout << "Vous avez battu tous les Leaders !" << endl;
+            }
+            
         } else if(option == 6) {
-
+            if(poke.getAllMaitre().size() == 0) {
+                cout << "Vous avez battu tous les Maitres !" << endl;
+            } else {
+                cout << poke.affronterMaitre(poke.getAllJoueurs()[idJoueur], poke.getAllMaitre()[0]) << endl;
+            }
         } else if(option == 7) {
             int choix = -1;
             cout << "Voulez-vous interagir avec :" << endl;

@@ -7,7 +7,8 @@
 using namespace std;
 
 class Maitre : public Entraineur {
-
+    public:
+        Maitre(string pNom, PokemonComplet* pPokemons[6]);
 };
 
 #endif 

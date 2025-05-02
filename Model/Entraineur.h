@@ -20,7 +20,7 @@ class Entraineur {
 
         PokemonComplet** getPokemons();
         
-        
+        bool operator==(const Entraineur& autre) const;
         
 };
 
