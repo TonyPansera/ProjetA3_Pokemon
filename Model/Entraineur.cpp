@@ -25,7 +25,7 @@ string Entraineur::interaction() {
     string quotes[6] = {
         "Astuce : Lors d'un combat, choisi un Pokemon en fonction des faiblesses et résistances que l'adversaire !",
         "Astuce : Le plus de Pokemons tu possèdes, le plus tu as de chances de gagner un combat !",
-        "Conseil : Ne part pas au combat avant d'avoir soigné tes Pokemons !",
+        "Conseil : Ne part pas au combat avant d'avoir soigné tes Pokemons 병신 새끼!",
         "BOMBARDILO CROCODILO",
         "TUNG TUNG TUNG TUNG TUNG TUNG SAHUR",
         "TRALALERO TRALALA"

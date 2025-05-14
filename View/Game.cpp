@@ -39,7 +39,7 @@ int main() {
         cout << "2. Récupérer les points de vie (HP) des Pokemons" << endl;
         cout << "3. Changer l'ordre des Pokemons dans l'équipe" << endl;
         cout << "4. Afficher les statistiques du Joueur" << endl;
-        cout << "5. Affronter un Gymnase" << endl;
+        cout << "5. Affronter un Gymnase " << endl;
         cout << "6. Affronter un Maître Pokemon" << endl;
         cout << "7. Intéragir avec les Pokemons ou les entraîneurs vaincus" << endl;
         cout << "8. Quitter le jeu" << endl;
